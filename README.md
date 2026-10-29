@@ -9,9 +9,10 @@ Promoted lists sometimes span several unrelated categories (salad, protein, snac
 1. **Embed the promoted UPCs.** Each UPC is turned into a vector using the kroBERT embedding model (based on product descriptions). Using krobert_cfic_1.0, but update to 3.0 when it is productionalized.
 2. **Cluster them.** Hierarchical clustering groups similar promoted UPCs together. The distance threshold is picked automatically by `select_threshold`: it tries a range of thresholds, throws out ones that leave too many single-UPC clusters or too few/many clusters overall, then keeps the one with the best silhouette score.
 3. **Build a centroid per cluster.** The centroid is the normalized average embedding of the UPCs in that cluster.
-4. **Find similar UPCs.** Every UPC in the catalog is compared to each centroid using cosine similarity. Promoted UPCs are removed, and only UPCs with a similarity of 0.60 or higher are kept.
-5. **Bring in YNB scores.** For each household, we look up its YNB basket likelihood score for the similar UPCs.
-6. **Score households within each cluster.** The final score is:
+4. Set Cluster_on to "raw", short for raw embeddings: if promoted UPC list is mostly one category or very similar products, use this.  Set Cluster_on to "centered", short for mean centered embeddings: if promoted UPC list is a variety of subcommodities, OR if you want more granularity within a similar UPC type (example: coffee by origin, pods/not pods, ect)
+5. **Find similar UPCs.** Every UPC in the catalog is compared to each centroid using cosine similarity. Promoted UPCs are removed, and only UPCs with a similarity of 0.60 or higher are kept.
+6. **Bring in YNB scores.** For each household, we look up its YNB basket likelihood score for the similar UPCs.
+7. **Score households within each cluster.** The final score is:
 
    | Piece | Weight |
    |---|---|
@@ -20,7 +21,7 @@ Promoted lists sometimes span several unrelated categories (salad, protein, snac
    | Number of qualifying UPCs the household has (scaled 0 to 1 within the cluster) | 20% |
 
    A household's cosine/YNB piece comes from its best-scoring UPC in the cluster.
-7. **Rank and bucket.** Households are ranked inside each cluster and split into deciles:
+8. **Rank and bucket.** Households are ranked inside each cluster and split into deciles:
    - **Best**: top 10%
    - **Better**: next 40%
    - **Good**: bottom 50%
