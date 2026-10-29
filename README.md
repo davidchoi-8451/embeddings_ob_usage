@@ -53,6 +53,8 @@ Promoted lists sometimes span several unrelated categories (salad, protein, snac
 - Scores are only comparable **within** a cluster, not across clusters. A household can show up in more than one cluster.
 - The weights (40/40/20) and the 0.60 cosine cutoff are judgment calls. Change them at the top of the relevant cells if needed.
 
+WIP: StreamLit app for interactive HH recommending.
+
 ## Requirements
 
 Databricks with Spark, plus `effo_embeddings`, `openai`, `scikit-learn`, `scipy`, `numpy`, `pandas`, `matplotlib`.
