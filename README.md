@@ -56,6 +56,10 @@ Promoted lists sometimes span several unrelated categories (salad, protein, snac
 ## Requirements
 
 Databricks with Spark, plus `effo_embeddings`, `openai`, `scikit-learn`, `scipy`, `numpy`, `pandas`, `matplotlib`.
+
+Additional Embeddings Resources:
+- https://effo-embeddings.pages.8451.com/references/example_notebooks/4_next_gen_rec_examples.html
+- https://eaas.pages.8451.com/user/index.html
 Requirements
 
 Databricks with Spark, plus hdbscan, effo_embeddings, openai, scikit-learn, scipy, numpy, pandas, matplotlib.
