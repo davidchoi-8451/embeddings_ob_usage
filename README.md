@@ -51,9 +51,7 @@ Promoted lists sometimes span several unrelated categories (salad, protein, snac
 ## Things to know
 
 - Scores are only comparable **within** a cluster, not across clusters. A household can show up in more than one cluster.
-- The thresholds in `select_threshold` (max 10% singletons, 8 to 25 clusters) are fixed numbers. If the promoted list gets much bigger or smaller, adjust them.
 - The weights (40/40/20) and the 0.60 cosine cutoff are judgment calls. Change them at the top of the relevant cells if needed.
-- Don't call `.display()` or `.toPandas()` on the full household tables. They are very large and will hit the driver result limit. Filter to one cluster or use `.limit()`.
 
 ## Requirements
 
