@@ -1,16 +1,16 @@
 # Promoted UPC Household Targeting
 
-Given a list of promoted UPCs, this notebook finds households that are likely to buy similar products, and sorts them into Best / Better / Good groups.
+Given a list of promoted UPCs, this notebook finds households that are likely to buy similar products, and sorts them into Best / Better / Good groups (to mirror BAU Bullseye targeting).
 
-Promoted lists usually span several unrelated categories (salad, protein, snacks, etc.), so a single "average" product doesn't work well. Instead, the notebook first groups the promoted UPCs into clusters and then scores households separately for each cluster.
+Promoted lists sometimes span several unrelated categories (salad, protein, snacks, etc.), so a single "average" product doesn't work well. Instead, this notebook aims to first group the promoted UPCs into relevant clusters and then scores households separately for each cluster. Finally, for each relevant category of UPC in the promoted products list, we will get the "Best" HHs.
 
 ## How it works
 
-1. **Embed the promoted UPCs.** Each UPC is turned into a vector using the kroBERT embedding model (based on product descriptions).
+1. **Embed the promoted UPCs.** Each UPC is turned into a vector using the kroBERT embedding model (based on product descriptions). Using krobert_cfic_1.0, but update to 3.0 when it is productionalized.
 2. **Cluster them.** Hierarchical clustering groups similar promoted UPCs together. The distance threshold is picked automatically by `select_threshold`: it tries a range of thresholds, throws out ones that leave too many single-UPC clusters or too few/many clusters overall, then keeps the one with the best silhouette score.
 3. **Build a centroid per cluster.** The centroid is the normalized average embedding of the UPCs in that cluster.
 4. **Find similar UPCs.** Every UPC in the catalog is compared to each centroid using cosine similarity. Promoted UPCs are removed, and only UPCs with a similarity of 0.60 or higher are kept.
-5. **Bring in YNB scores.** For each household, we look up its YNB propensity score for the similar UPCs.
+5. **Bring in YNB scores.** For each household, we look up its YNB basket likelihood score for the similar UPCs.
 6. **Score households within each cluster.** The final score is:
 
    | Piece | Weight |
